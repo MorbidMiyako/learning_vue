@@ -4,14 +4,15 @@
     <!-- !!!!!!!!!!!!!!!!!!!!!! -->
     <!-- the : in front of given-prop is ESSENTIAL if you want to be able to send a variable, without it will send as a string, see App.vue -->
     <div>
-      <h1>calling components, sharing props and how to use data</h1>
+      <h1>Calling components, sharing props and how to use data</h1>
       <!-- an imported components should be written in kebabstyle due to html elements not noticing Uppercase, so ImportedComponent becomes imported-components -->
       <!-- however, camelcase does work fine -->
+      <!-- the text between " " for a v-bind is interpreted as javascript -->
       <imported-component :givenProp="insertProp" />
     </div>
 
     <div>
-      <h2>how to use received props and styling</h2>
+      <h1>How to use received props and styling</h1>
       <p id="id">
         this is the prop CurrentComponent received: <br />{{ receivedProp }}
       </p>
@@ -19,9 +20,17 @@
         this is the result after manipulating a prop in data:<br />
         {{ manipulatedProp }}
       </p>
+      <p>
+        this is the result after manipulating a prop in locally:<br />
+        {{ 191 * receivedProp }}
+      </p>
     </div>
+
     <div>
-      <h1>how to hook up values and use conditionals</h1>
+      <h1>
+        How to hook up values and use conditionals to render elements and
+        display text
+      </h1>
       <p>
         this depends on the value set by textInput, combined with turnary
         statement: <br />
@@ -30,7 +39,8 @@
         }}
       </p>
       <!-- v-model binds two ways, stored in data -->
-      <!-- use v-on: or @  keyup.enter to register key presses -->
+      <!-- use v-on:keyup(.enter) to register key presses -->
+      <!-- @ is shorthand for v-on:, like : is shorthand for v-bind: -->
       <input
         v-model="textInput"
         v-on:keyup.enter="addInputToItems(textInput)"
@@ -48,8 +58,10 @@
         i appear trough an else, items.length === 5 reveals an else if dependent
         element and hides me
       </p>
-      <div></div>
-      <h2>some for in rendering</h2>
+    </div>
+
+    <div>
+      <h1>Some for in rendering</h1>
       <p>this ul is created using a for in list</p>
       <ul>
         <li v-for="n in items" :key="n">{{ n }}</li>
@@ -61,6 +73,20 @@
         :givenProp="prop"
       />
     </div>
+
+    <div>
+      <h1>How to have dynamic attributes in vue and use computed</h1>
+      <!-- this also works when wanting to set attributes like classes etc, between " " is interpreted as javascript if you put : before the attribute -->
+      <!-- computed has its own object, requires a return and are not allowed to overwrite data, if you want to change data locally resort to methods -->
+      <p :style="setStyling">
+        use the textbox to set the style attribute of this tag <br />
+        :style="{{ setStyling }}"
+      </p>
+      <input v-model="setStyling" />
+      <!-- there are other ways of doing this, as shown before (doing this when setting/updating data, or between the {{ }} ) -->
+      <p>text.length: {{ setStylingLength }}</p>
+    </div>
+
     <div>
       <h1>Sharing and storage of function</h1>
       <p>This showcases difference between location function is stored</p>
@@ -109,6 +135,7 @@ export default {
       textInput: null,
       items: [1, 2, 3],
       componentList: ["i", "said", "hi"],
+      setStyling: "color:red;",
       heyAdded: false,
       amountClicked: 0,
       // this will use the amountClicked above
@@ -121,6 +148,11 @@ export default {
         return (amountClicked += 1);
       },
     };
+  },
+  computed: {
+    setStylingLength() {
+      return this.setStyling.length;
+    },
   },
   methods: {
     // methods can be stored both underneath methods and data
