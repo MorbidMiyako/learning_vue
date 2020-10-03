@@ -1,3 +1,5 @@
+// simply run vue create my-app to create a basic vue basic project
+
 <template>
   <!-- same as react regarding one enclosing root div, you just call it div normally-->
   <enclosingDiv>
@@ -23,6 +25,12 @@
       <p>
         this is the result after manipulating a prop in locally:<br />
         {{ 191 * receivedProp }}
+      </p>
+      <p>
+        these are two values pulled from the store: <br />
+        {{ genericStoreValue }} <br />
+        <!-- you cant import directly from the store, this will error and show a white screen-->
+        <!-- {{ store.someOtherVariable }} -->
       </p>
     </div>
 
@@ -112,6 +120,8 @@
 </template>
 
 <script>
+// @ is an alias to /src, prevents having to use ../ to get up to the src/ directory
+import store from "@/store.js";
 import ImportedComponent from "./components/ImportedComponent.vue";
 import ShowcaseFunctionStorage from "./components/ShowcaseFunctionStorage";
 import SharedFunctionUsedLocally from "./components/SharedFunctionUsedLocally";
@@ -135,6 +145,8 @@ export default {
       textInput: null,
       items: [1, 2, 3],
       componentList: ["i", "said", "hi"],
+      genericStoreValue: store.genericStoreArray[0].name,
+      otherStoreValue: store.someOtherVariable,
       setStyling: "color:red;",
       heyAdded: false,
       amountClicked: 0,

@@ -1,7 +1,9 @@
-default format:
+default format of a vue file:
+
+simply run vue create my-app to create basic project
 
 <template>
-  <Component />
+  <Component id="css" />
 </template>
 
 <script>
